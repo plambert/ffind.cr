@@ -1,0 +1,13 @@
+name: ffind
+version: 0.1.0
+
+authors:
+  - Paul M. Lambert <plambert@plambert.net>
+
+targets:
+  ffind:
+    main: src/find.cr
+
+crystal: 1.7.3
+
+license: MIT
