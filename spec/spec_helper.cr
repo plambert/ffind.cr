@@ -1,2 +1,2 @@
 require "spec"
-require "../src/find"
+require "../src/find/expression"
