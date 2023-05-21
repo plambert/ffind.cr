@@ -1,6 +1,18 @@
 # ffind
 
-TODO: Write a description here
+Find files on the filesystem based on an expression string.
+
+Expressions can use parentheses, AND, and OR.  Expressions are case insensitive, except for literals.
+
+Supported expressions:
+
+[IS] [NOT] FILE
+[IS] [NOT] ( DIR | DIRECTORY )
+[IS] [NOT] ( EXEC | EXECUTABLE )
+[IS] [NOT] ( VIDEO | MEDIA | AUDIO | TEXT | HTML | YAML | JSON ) [FILE]
+[IS] [NOT] EMPTY
+SUFFIX [IS] [NOT] .suffix
+
 
 ## Installation
 
