@@ -31,9 +31,9 @@ module Find::Expression::AST
     end
 
     def to_s(io, parens)
-      io << "( " if parens
-      @text.to_s(io)
-      io << " )" if parens
+      io << "(" if parens
+      io << @text
+      io << ")" if parens
     end
 
     def number?
@@ -52,17 +52,16 @@ module Find::Expression::AST
     end
 
     def self.parse(scan) : Base?
-      Parens.parse(scan) || IsFile.parse(scan) || IsDirectory.parse(scan) || IsExecutable.parse(scan) || IsFileType.parse(scan) || IsEmpty.parse(scan) || SuffixIs.parse(scan) || NameIs.parse(scan)
+      Parens.parse(scan) ||
+        IsFile.parse(scan) ||
+        IsDirectory.parse(scan) ||
+        IsExecutable.parse(scan) ||
+        IsFileType.parse(scan) ||
+        IsEmpty.parse(scan) ||
+        SuffixIs.parse(scan) ||
+        NameIs.parse(scan)
     end
   end
-
-  # class Term < Base
-  #   def initialize(@pos, @text)
-  #   end
-
-  #   def self.parse(scan) : Base?
-  #   end
-  # end
 
   class Parens < Base
     property expr : Base
@@ -240,22 +239,26 @@ module Find::Expression::AST
 
   class SuffixIs < Base
     property suffix : SuffixLiteral
+    property negated : Bool
 
-    def initialize(@pos, @text, @suffix)
+    def initialize(@pos, @text, @suffix, @negated)
     end
 
     def to_s(io, parens = false)
       io << '(' if parens
       io << "SUFFIX IS "
+      io << "NOT " if @negated
       @suffix.to_s(io, parens)
       io << ')' if parens
     end
 
     def self.parse(scan) : Base?
       pos = scan.offset
-      if scan.scan(%r{\s*\bsuffix\s+is\s+}i)
+      negated = false
+      if scan.scan(%r{\s*\bsuffix\s+(?:is\s+)?((?:not\s+)?)}i)
+        negated = true if scan[1].size > 0
         if suffix = SuffixLiteral.parse(scan)
-          self.new pos: pos, text: scan.string[pos...scan.offset].strip, suffix: suffix
+          self.new pos: pos, text: scan.string[pos...scan.offset].strip, suffix: suffix, negated: negated
         else
           scan.offset = pos
           nil
