@@ -9,8 +9,8 @@
 # suffix [is [not]] "mp4"
 # name [is [not]] ".DS_store"
 # [is [not]] .mp4
-# [is [not]] video file
-# [is [not]] media file
+# [is [not]] video [file]
+# [is [not]] media [file]
 # age > 10 seconds
 # age <= 1 day
 # age >= 4 weeks
@@ -102,9 +102,9 @@ module Find::Expression::AST
 
     def to_s(io, parens = false)
       io << '(' if parens
-      io << "IS"
-      io << " NOT" if @negated
-      io << " FILE"
+      io << "is"
+      io << " not" if @negated
+      io << " file"
       io << ')' if parens
     end
 
@@ -126,9 +126,9 @@ module Find::Expression::AST
 
     def to_s(io, parens = false)
       io << '(' if parens
-      io << "IS"
-      io << " NOT" if @negated
-      io << " DIRECTORY"
+      io << "is"
+      io << " not" if @negated
+      io << " directory"
       io << ')' if parens
     end
 
@@ -150,9 +150,9 @@ module Find::Expression::AST
 
     def to_s(io, parens = false)
       io << '(' if parens
-      io << "IS"
-      io << " NOT" if @negated
-      io << " EXECUTABLE FILE"
+      io << "is"
+      io << " not" if @negated
+      io << " executable file"
       io << ')' if parens
     end
 
@@ -175,10 +175,10 @@ module Find::Expression::AST
 
     def to_s(io, parens = false)
       io << '(' if parens
-      io << "IS "
-      io << "NOT " if @negated
+      io << "is "
+      io << "not " if @negated
       io << @type.upcase
-      io << " FILE"
+      io << " file"
       io << ')' if parens
     end
 
@@ -200,9 +200,9 @@ module Find::Expression::AST
 
     def to_s(io, parens = false)
       io << '(' if parens
-      io << "IS "
-      io << "NOT " if @negated
-      io << "EMPTY"
+      io << "is "
+      io << "not " if @negated
+      io << "empty"
       io << ')' if parens
     end
 
@@ -246,8 +246,8 @@ module Find::Expression::AST
 
     def to_s(io, parens = false)
       io << '(' if parens
-      io << "SUFFIX IS "
-      io << "NOT " if @negated
+      io << "suffix is "
+      io << "not " if @negated
       @suffix.to_s(io, parens)
       io << ')' if parens
     end
@@ -278,8 +278,8 @@ module Find::Expression::AST
 
     def to_s(io, parens = false)
       io << '(' if parens
-      io << "NAME IS "
-      io << "NOT " if @negated
+      io << "name is "
+      io << "not " if @negated
       @name.to_s(io, parens)
       io << ')' if parens
     end
@@ -316,7 +316,7 @@ module Find::Expression::AST
     def to_s(io, parens = false)
       io << '(' if parens
       @left.to_s(io, parens)
-      io << " OR "
+      io << " or "
       @right.to_s(io, parens)
       io << ')' if parens
     end
@@ -349,7 +349,7 @@ module Find::Expression::AST
     def to_s(io, parens = false)
       io << '(' if parens
       @left.to_s(io, parens)
-      io << " AND "
+      io << " and "
       @right.to_s(io, parens)
       io << ')' if parens
     end
