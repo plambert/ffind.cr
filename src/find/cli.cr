@@ -27,10 +27,9 @@ class Find::CLI
   end
 
   def run
-    puts "EXPRESSION: #{@expression}"
     puts "#{@dirs.size} directories"
     @dirs.each_with_index do |dir, idx|
-      printf "%4d %s", idx, dir
+      printf "%4d %s", 1 + idx, dir
       if !File.exists?(dir)
         print " (missing)"
       elsif !File.directory?(dir)
@@ -40,9 +39,6 @@ class Find::CLI
     end
     if expr = Find::Expression::Parser.new(@expression).parse
       puts expr
-      expr.to_s(STDOUT, true)
-      STDOUT << '\n'
-      pp expr
       0
     else
       puts "FAILED TO PARSE"
